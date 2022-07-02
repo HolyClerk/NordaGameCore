@@ -20,17 +20,30 @@ internal class Game
 
         var nativeWindowSettings = new NativeWindowSettings()
         {
-            Title = "Test Window",
+            Title = "Игровое окно",
+
             Size = new Vector2i(800, 600),
-            Flags = ContextFlags.Default,
+            Location = new Vector2i(300, 300),
+            MinimumSize = new Vector2i(800, 600),
+
+            WindowBorder = WindowBorder.Resizable,
+            WindowState = WindowState.Normal,
+
+            StartVisible = true,
+            StartFocused = true,
+
+            Flags = ContextFlags.ForwardCompatible,
             Profile = ContextProfile.Core,
+
+            API = ContextAPI.OpenGL,
+            APIVersion = new Version(4, 6),
+
+            NumberOfSamples = 0,
         };
 
-        using (_gameWindow)
+        using (_gameWindow = new Window(gameWindowSettings, nativeWindowSettings))
         {
-            _gameWindow = new Window(gameWindowSettings, nativeWindowSettings);
             _gameWindow.Run();
         }
     }
 }
-

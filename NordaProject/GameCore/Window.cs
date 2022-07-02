@@ -8,9 +8,9 @@ using OpenTK;
 using OpenTK.Windowing;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
+
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
-
 
 namespace NordaProject.GameCore;
 
@@ -18,6 +18,7 @@ public sealed class Window : GameWindow
 {
     public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
     {
+        Console.WriteLine("Started!");
     }
 
     protected override void OnLoad()
@@ -37,6 +38,11 @@ public sealed class Window : GameWindow
 
     protected override void OnRenderFrame(FrameEventArgs args)
     {
+        GL.ClearColor(Color4.ForestGreen);
+        GL.Clear(ClearBufferMask.ColorBufferBit);
+
+        SwapBuffers();
+
         base.OnRenderFrame(args);
     }
 
