@@ -12,18 +12,26 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
+using NordaProject.GameCore.UI;
+
 namespace NordaProject.GameCore;
 
 public sealed class Window : GameWindow
 {
+    private UserInterface _UI;
+    private KeyEventsHandler _defaultKBevents;
+
     public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
     {
-        Console.WriteLine("Started!");
+        _UI = new(this);
+        _defaultKBevents = new(this);
     }
 
     protected override void OnLoad()
     {
         base.OnLoad();
+
+        GL.ClearColor(Color4.ForestGreen);
     }
 
     protected override void OnResize(ResizeEventArgs e)
@@ -34,16 +42,17 @@ public sealed class Window : GameWindow
     protected override void OnUpdateFrame(FrameEventArgs args)
     {
         base.OnUpdateFrame(args);
+
+        _UI.ShowFPSinTitle();
     }
 
     protected override void OnRenderFrame(FrameEventArgs args)
     {
-        GL.ClearColor(Color4.ForestGreen);
+        base.OnRenderFrame(args);
+
         GL.Clear(ClearBufferMask.ColorBufferBit);
 
         SwapBuffers();
-
-        base.OnRenderFrame(args);
     }
 
     protected override void OnUnload()

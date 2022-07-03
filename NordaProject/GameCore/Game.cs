@@ -3,6 +3,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 
 using NordaProject.Debug;
+using NordaProject.GameCore.Settings;
 
 namespace NordaProject.GameCore;
 
@@ -37,12 +38,13 @@ internal class Game
 
             API = ContextAPI.OpenGL,
             APIVersion = new Version(4, 6),
-
+            
             NumberOfSamples = 0,
         };
 
         using (_gameWindow = new Window(gameWindowSettings, nativeWindowSettings))
         {
+            UserSettings.SetUserSettings(_gameWindow);
             _gameWindow.Run();
         }
     }
