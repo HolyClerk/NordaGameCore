@@ -35,6 +35,8 @@ public sealed class Window : GameWindow
         base.OnLoad();
 
         GL.ClearColor(Color4.White);
+        GL.Enable(EnableCap.CullFace);
+        GL.CullFace(CullFaceMode.Back);
     }
 
     protected override void OnResize(ResizeEventArgs e)
@@ -49,8 +51,6 @@ public sealed class Window : GameWindow
         _UI.Update();
         _UI.ShowFPSinTitle();
         _UI.ShowMouseCoordInTitle();
-
-        PrimitiveImplementer.CreatePoint(MousePosition, 10);
     }
 
     protected override void OnRenderFrame(FrameEventArgs args)
@@ -64,9 +64,11 @@ public sealed class Window : GameWindow
             (Vector2)(0.0f, 0.3f),
             (Vector2)(0.4f, 0.1f));
 
-        PrimitiveImplementer.CreateTriangle(triangleTemplate);
+        GL.Rotate(0.3f, 0.0f, 1.0f, 0.0f);
 
-        PrimitiveImplementer.CreatePoint(new Point(0.0f, 0.5f, 10));
+        PrimitiveRenderer.CreateTriangle(triangleTemplate);
+
+        PrimitiveRenderer.CreatePoint(new Point(0.0f, 0.5f, 10));
 
         SwapBuffers();
     }

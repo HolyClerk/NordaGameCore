@@ -9,7 +9,7 @@ namespace NordaProject.GameCore;
 
 internal class Game
 {
-    private static Window _gameWindow;
+    private static Window? _gameWindow;
 
     public static void Initialize()
     {

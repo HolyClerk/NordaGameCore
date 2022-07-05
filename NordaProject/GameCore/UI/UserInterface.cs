@@ -28,7 +28,7 @@ internal class UserInterface
     {
         var mousePos = _currentWindow.MousePosition.Normalized();
 
-        _currentWindow.Title = $"Mouse Pos " +
+        _currentWindow.Title += $"Mouse Pos " +
             $"X:{mousePos.X} " +
             $"Y:{mousePos.Y} ";
     }

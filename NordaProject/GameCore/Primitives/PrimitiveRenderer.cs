@@ -5,7 +5,7 @@ using OpenTK.Windowing.Desktop;
 
 namespace NordaProject.GameCore.Primitives;
 
-internal class PrimitiveImplementer
+internal class PrimitiveRenderer
 {
     public static void CreatePoint(Vector2 point = default, int size = 1)
     {
@@ -37,7 +37,20 @@ internal class PrimitiveImplementer
     {
         GL.Begin(PrimitiveType.Triangles);
 
-        GL.Color3(0.65f, 1.98f, 2.55f);
+        GL.Color3(2.55f, 0.42f, 0.64f);
+
+        GL.Vertex2(triangle.Vertex0);
+        GL.Vertex2(triangle.Vertex1);
+        GL.Vertex2(triangle.Vertex2);
+
+        GL.End();
+    }
+
+    public static void CreateTriangle(Vector3 color, Triangle triangle = default)
+    {
+        GL.Begin(PrimitiveType.Triangles);
+
+        GL.Color3(color);
 
         GL.Vertex2(triangle.Vertex0);
         GL.Vertex2(triangle.Vertex1);

@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+NordaProject/GameCore/Settings/UserSettings.cs
+NordaProject/GameCore/Settings/UserSettings.cs
+NordaProject/Settings/UserSettings.cs
