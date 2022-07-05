@@ -34,8 +34,9 @@ public sealed class Window : GameWindow
     {
         base.OnLoad();
 
-        GL.ClearColor(Color4.White);
+        GL.ClearColor(Color4.Black);
         GL.Enable(EnableCap.CullFace);
+        GL.Enable(EnableCap.PolygonSmooth);
         GL.CullFace(CullFaceMode.Back);
     }
 
@@ -60,15 +61,16 @@ public sealed class Window : GameWindow
         GL.Clear(ClearBufferMask.ColorBufferBit);
 
         Triangle triangleTemplate = new(
-            (Vector2)(-0.6f, -0.4f),
-            (Vector2)(0.0f, 0.3f),
-            (Vector2)(0.4f, 0.1f));
+            (Vector2)(-0.2f, -0.2f),
+            (Vector2)( 0.2f, -0.2f),
+            (Vector2)(-0.2f,  0.2f));
 
         GL.Rotate(0.3f, 0.0f, 1.0f, 0.0f);
 
-        PrimitiveRenderer.CreateTriangle(triangleTemplate);
-
-        PrimitiveRenderer.CreatePoint(new Point(0.0f, 0.5f, 10));
+        PrimitiveRenderer.CreateConnectedTriangle(triangleTemplate, new Vector2[1] 
+        { 
+            (Vector2)(0.2f, 0.2f)
+        });
 
         SwapBuffers();
     }

@@ -7,19 +7,6 @@ namespace NordaProject.GameCore.Primitives;
 
 internal class PrimitiveRenderer
 {
-    public static void CreatePoint(Vector2 point = default, int size = 1)
-    {
-        GL.PointSize(size);
-
-        GL.Begin(PrimitiveType.Points);
-
-        GL.Color3(2.55f, 0.0f, 1.32f);
-
-        GL.Vertex2(point.X, point.Y);
-
-        GL.End();
-    }
-
     public static void CreatePoint(Point point = default)
     {
         GL.PointSize(point.Size);
@@ -46,15 +33,26 @@ internal class PrimitiveRenderer
         GL.End();
     }
 
-    public static void CreateTriangle(Vector3 color, Triangle triangle = default)
+    public static void CreateConnectedTriangle(Triangle baseTriangle, Vector2[] vertices)
     {
-        GL.Begin(PrimitiveType.Triangles);
+        GL.Begin(PrimitiveType.TriangleStrip);
 
-        GL.Color3(color);
+        GL.Color3(2.55f, 0.42f, 0.64f);
 
-        GL.Vertex2(triangle.Vertex0);
-        GL.Vertex2(triangle.Vertex1);
-        GL.Vertex2(triangle.Vertex2);
+        GL.Vertex2(baseTriangle.Vertex0);
+        GL.Vertex2(baseTriangle.Vertex1);
+        GL.Vertex2(baseTriangle.Vertex2);
+
+        if (vertices.Length <= 0)
+        {
+            GL.End();
+            return;
+        }
+
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            GL.Vertex2(vertices[i].X, vertices[i].Y);
+        }
 
         GL.End();
     }

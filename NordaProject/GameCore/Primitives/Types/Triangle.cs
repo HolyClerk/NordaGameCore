@@ -12,6 +12,6 @@ internal struct Triangle
     }
 
     public Vector2 Vertex0 = new Vector2(-0.2f, 0.0f);  // LEFT VERTEX
-    public Vector2 Vertex1 = new Vector2(0.0f, 0.3f);   // TOP VERTEX
-    public Vector2 Vertex2 = new Vector2(0.2f, 0.0f);   // RIGHT VERTEX
+    public Vector2 Vertex1 = new Vector2(0.0f, 0.3f);   // RIGHT VERTEX
+    public Vector2 Vertex2 = new Vector2(0.2f, 0.0f);   // TOP VERTEX
 }
