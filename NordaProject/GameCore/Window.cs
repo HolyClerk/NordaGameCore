@@ -13,6 +13,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
 using NordaProject.GameCore.UI;
+using NordaProject.GameCore.Keyboard;
 
 namespace NordaProject.GameCore;
 

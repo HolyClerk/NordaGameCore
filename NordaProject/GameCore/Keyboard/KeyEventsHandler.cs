@@ -1,7 +1,7 @@
 ﻿using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
-namespace NordaProject.GameCore;
+namespace NordaProject.GameCore.Keyboard;
 
 internal class KeyEventsHandler
 {
@@ -25,6 +25,6 @@ internal class KeyEventsHandler
 
     private void OnKeyDown(KeyboardKeyEventArgs obj)
     {
-        
+
     }
 }
