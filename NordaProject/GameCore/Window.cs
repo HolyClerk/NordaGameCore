@@ -34,7 +34,7 @@ public sealed class Window : GameWindow
     {
         base.OnLoad();
 
-        GL.ClearColor(Color4.ForestGreen);
+        GL.ClearColor(Color4.White);
     }
 
     protected override void OnResize(ResizeEventArgs e)
@@ -46,7 +46,11 @@ public sealed class Window : GameWindow
     {
         base.OnUpdateFrame(args);
 
+        _UI.Update();
         _UI.ShowFPSinTitle();
+        _UI.ShowMouseCoordInTitle();
+
+        PrimitiveImplementer.CreatePoint(MousePosition, 10);
     }
 
     protected override void OnRenderFrame(FrameEventArgs args)
@@ -56,11 +60,13 @@ public sealed class Window : GameWindow
         GL.Clear(ClearBufferMask.ColorBufferBit);
 
         Triangle triangleTemplate = new(
-            (Vector2)(-0.1f, -0.1f),
-            (Vector2)(0.0f, 0.1f),
-            (Vector2)(0.1f, 0.2f));
+            (Vector2)(-0.6f, -0.4f),
+            (Vector2)(0.0f, 0.3f),
+            (Vector2)(0.4f, 0.1f));
 
         PrimitiveImplementer.CreateTriangle(triangleTemplate);
+
+        PrimitiveImplementer.CreatePoint(new Point(0.0f, 0.5f, 10));
 
         SwapBuffers();
     }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenTK.Mathematics;
 
 namespace NordaProject.GameCore.UI;
 
@@ -17,7 +13,7 @@ internal class UserInterface
         _framePerSecond = new FPS();
     }
 
-    public void UpdateUI()
+    public void Update()
     {
 
     }
@@ -25,7 +21,16 @@ internal class UserInterface
     public void ShowFPSinTitle()
     {
         _framePerSecond.IncreaseFrameTime(_currentWindow.RenderTime);
-        _currentWindow.Title = $@"Игровое окно FPS: {_framePerSecond.GetFPS()}";
+        _currentWindow.Title = $@"Игровое окно FPS: {_framePerSecond.GetFPS()} ";
+    }
+
+    public void ShowMouseCoordInTitle()
+    {
+        var mousePos = _currentWindow.MousePosition.Normalized();
+
+        _currentWindow.Title = $"Mouse Pos " +
+            $"X:{mousePos.X} " +
+            $"Y:{mousePos.Y} ";
     }
 }
 
