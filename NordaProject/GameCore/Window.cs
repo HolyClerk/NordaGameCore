@@ -14,6 +14,8 @@ using OpenTK.Mathematics;
 
 using NordaProject.GameCore.UI;
 using NordaProject.GameCore.Keyboard;
+using NordaProject.GameCore.Primitives;
+using NordaProject.GameCore.Primitives.Types;
 
 namespace NordaProject.GameCore;
 
@@ -52,6 +54,13 @@ public sealed class Window : GameWindow
         base.OnRenderFrame(args);
 
         GL.Clear(ClearBufferMask.ColorBufferBit);
+
+        Triangle triangleTemplate = new(
+            (Vector2)(-0.1f, -0.1f),
+            (Vector2)(0.0f, 0.1f),
+            (Vector2)(0.1f, 0.2f));
+
+        PrimitiveImplementer.CreateTriangle(triangleTemplate);
 
         SwapBuffers();
     }

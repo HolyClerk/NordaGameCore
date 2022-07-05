@@ -33,8 +33,10 @@ internal class Game
             StartVisible = true,
             StartFocused = true,
 
-            Flags = ContextFlags.ForwardCompatible,
-            Profile = ContextProfile.Core,
+            // Flags = ContextFlags.ForwardCompatible,
+            Flags = ContextFlags.Default,
+            // Profile = ContextProfile.Core,
+            Profile = ContextProfile.Compatability,
 
             API = ContextAPI.OpenGL,
             APIVersion = new Version(4, 6),
