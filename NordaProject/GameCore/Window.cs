@@ -10,6 +10,7 @@ using NordaProject.GameCore.UI;
 using NordaProject.GameCore.Keyboard;
 using NordaProject.GameCore.Primitives;
 using NordaProject.GameCore.Primitives.Types;
+using NordaProject.GameCore.Rendering;
 
 namespace NordaProject.GameCore;
 
@@ -60,14 +61,13 @@ public sealed class Window : GameWindow
             (Vector2)(-0.2f,  0.2f));
 
         // GL.Rotate(0.3f, 0.0f, 1.0f, 0.0f);
+        float[] floats = new float[]
+        {
+            0.0f,
+        };
 
-        PrimitiveRenderer.CreateStripedTriangle(triangleTemplate, new Vector2[] 
-        { 
-            (Vector2)(0.2f, 0.2f),
-            (Vector2)(0.2f, 0.6f),
-            (Vector2)(-0.2f, 0.6f),
-
-        });
+        var VBO = new VertexBuffer();
+        VBO.CreateArrayBuffer()
 
         SwapBuffers();
     }

@@ -1,7 +1,7 @@
 ﻿using NordaProject.GameCore.Primitives.Types;
+
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
-using OpenTK.Windowing.Desktop;
 
 namespace NordaProject.GameCore.Primitives;
 
