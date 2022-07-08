@@ -17,7 +17,7 @@ namespace NordaProject.GameCore;
 
 public sealed class Window : GameWindow
 {
-    private GameRender _gameRender;
+    private RenderModule _gameRender;
     private UserInterface _UI;
     private KeyEventsHandler _defaultKBevents;
 

@@ -41,7 +41,7 @@ public sealed class VertexBuffer : IDisposable
         IsBinded = false;
     }
 
-    public void SetBufferData<T>(T[] data, BufferUsageHint hint) where T : struct
+    public void SetBufferData<T>(T[] data) where T : struct
     {
         if (data.Length < 1)
         {

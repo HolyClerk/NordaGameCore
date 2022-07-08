@@ -15,7 +15,7 @@ internal class ShaderProgram
 
     private int CreateNewShader(ShaderType shaderType, string shaderPath)
     {
-        var shaderCode = File.ReadAllText(@"");
+        var shaderCode = File.ReadAllText(@"C:\Users\PHPpr\Documents\Development\MainProjects\Norda\NordaProject\GameCore\Rendering\Shaders\shader.vert");
         var shaderID = GL.CreateShader(shaderType);
 
         GL.ShaderSource(shaderID, shaderCode);
