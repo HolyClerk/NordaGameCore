@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
 using NordaProject.GameCore.UI;
-using NordaProject.GameCore.Keyboard;
+using NordaProject.GameCore.Input;
 using NordaProject.GameCore.Rendering;
 using NordaProject.GameCore.Rendering.Buffers;
 
@@ -63,6 +63,8 @@ public sealed class Window : GameWindow
 
     protected override void OnUnload()
     {
+        _render.ShaderProgram.Dispose();
+
         base.OnUnload();
     }
 }

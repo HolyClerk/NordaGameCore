@@ -8,10 +8,10 @@ public sealed class VertexBuffer
     {
         VertexBufferObject = GL.GenBuffer();
 
-        GL.BufferData(BufferTarget.ArrayBuffer, 
+        GL.BufferData(target, 
             vertices.Length * sizeof(float), 
-            vertices, 
-            BufferUsageHint.StaticDraw);
+            vertices,
+            hint);
     }
 
     public readonly int VertexBufferObject;

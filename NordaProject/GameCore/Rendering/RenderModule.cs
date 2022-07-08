@@ -7,8 +7,11 @@ namespace NordaProject.GameCore.Rendering;
 
 internal sealed class RenderModule
 {
-    // private ShaderProgram _shaderProgram;
+    private const string SHADER_SOURCE= @"C:\Users\PHPpr\Documents\Development\MainProjects\Norda\NordaProject\GameCore\Rendering\Shaders\";
 
+    private int _vertexBufferObject;
+    private int _vertexArrayObject;
+    
     private float[] vertices =
     {
         -0.5f, -0.5f, 0.0f, //Bottom-left vertex
@@ -16,31 +19,69 @@ internal sealed class RenderModule
          0.0f,  0.5f, 0.0f  //Top vertex
     };
 
-    int VertexBufferObject;
+    public Shader ShaderProgram 
+    { 
+        get; private set; 
+    }
 
     public RenderModule() 
     {
-        VertexBufferObject = GL.GenBuffer();
-        
-        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+        // Инициализируем шейдерную программу
+        ShaderProgram = new Shader(SHADER_SOURCE + "shader.vert", SHADER_SOURCE + "shader.frag");
 
-        string VertexShaderSource;
+        // Иниц. VBO & VAO
+        _vertexBufferObject = GL.GenBuffer();
+        _vertexArrayObject = GL.GenVertexArray();
 
-        using (StreamReader reader = new StreamReader(vertexPath, Encoding.UTF8))
-        {
-            VertexShaderSource = reader.ReadToEnd();
-        }
+        // 1. Привязываем Vertex Array Object
+        GL.BindVertexArray(_vertexArrayObject);
 
-        string FragmentShaderSource;
+        // 2. Копируем наш vertices array в буфер openGL
+        GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
+        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.DynamicDraw);
 
-        using (StreamReader reader = new StreamReader(fragmentPath, Encoding.UTF8))
-        {
-            FragmentShaderSource = reader.ReadToEnd();
-        }
+        // 3. then set our vertex attributes pointers
+        GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+        GL.EnableVertexAttribArray(0);
     }
 
     public void RenderFrame()
     {
+        ShaderProgram.Use();
 
+        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.DynamicDraw);
+        GL.BindVertexArray(_vertexArrayObject);
+        GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+
+        MoveVertices();
+        GL.Rotate(0.3f, 0.0f, 1.0f, 0.0f);
+    }
+
+    bool isBack = false;
+
+    private void MoveVertices()
+    {
+        if (!isBack)
+        {
+            vertices[1] += 0.01f;
+            vertices[4] -= 0.003f;
+            vertices[6] += 0.003f;
+
+            if (vertices[1] >= 0.99f)
+            {
+                isBack = true;
+            }
+        }
+        else
+        {
+            vertices[1] -= 0.01f;
+            vertices[4] += 0.003f;
+            vertices[6] -= 0.003f;
+
+            if (vertices[1] <= -0.99f)
+            {
+                isBack = false;
+            }
+        }
     }
 }

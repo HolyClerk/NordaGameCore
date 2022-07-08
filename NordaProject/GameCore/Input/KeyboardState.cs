@@ -1,13 +1,13 @@
 ﻿using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
-namespace NordaProject.GameCore.Keyboard;
+namespace NordaProject.GameCore.Input;
 
-internal class KeyHandler
+internal class KeyboardState
 {
     private Window _window;
 
-    public KeyHandler(Window currentWindow)
+    public KeyboardState(Window currentWindow)
     {
         _window = currentWindow;
 
