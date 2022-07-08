@@ -4,10 +4,12 @@ using OpenTK.Graphics.OpenGL;
 
 namespace NordaProject.GameCore.Rendering;
 
-public sealed class Shader
+public class Shader : IDisposable
 {
     private int _vertexShader;
     private int _fragmentShader;
+
+    private bool _disposedValue = false;
 
     public Shader(string vertexShaderPath, string fragmentShaderPath)
     {
@@ -85,4 +87,27 @@ public sealed class Shader
         GL.DeleteShader(_fragmentShader);
         GL.DeleteShader(_vertexShader);
     }
+
+    public void Use()
+    {
+        GL.UseProgram(Handle);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposedValue)
+        {
+            GL.DeleteProgram(Handle);
+
+            _disposedValue = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    ~Shader() => GL.DeleteProgram(Handle);
 }
