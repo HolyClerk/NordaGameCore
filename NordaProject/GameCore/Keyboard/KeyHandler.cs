@@ -3,11 +3,11 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace NordaProject.GameCore.Keyboard;
 
-internal class KeyEventsHandler
+internal class KeyHandler
 {
     private Window _window;
 
-    public KeyEventsHandler(Window currentWindow)
+    public KeyHandler(Window currentWindow)
     {
         _window = currentWindow;
 

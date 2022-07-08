@@ -7,8 +7,6 @@ using OpenTK.Mathematics;
 
 using NordaProject.GameCore.UI;
 using NordaProject.GameCore.Keyboard;
-using NordaProject.GameCore.Primitives;
-using NordaProject.GameCore.Primitives.Types;
 using NordaProject.GameCore.Rendering;
 using NordaProject.GameCore.Rendering.Buffering;
 
@@ -18,13 +16,13 @@ public sealed class Window : GameWindow
 {
     private RenderModule _render;
     private UserInterface _userInterface;
-    private KeyEventsHandler _defaultKBevents;
+    private KeyHandler _keyHandler;
 
     public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
     {
         _render = new();
         _userInterface = new(this);
-        _defaultKBevents = new(this);
+        _keyHandler = new(this);
     }
 
     protected override void OnLoad()
