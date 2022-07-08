@@ -1,79 +1,36 @@
-﻿using System.Runtime.InteropServices;
+﻿using OpenTK.Graphics.OpenGL4;
 
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Mathematics;
+namespace NordaProject.GameCore.Rendering.Buffers;
 
-namespace NordaProject.GameCore.Rendering.Buffering;
-
-public sealed class VertexBuffer : IDisposable 
+public sealed class VertexBuffer
 {
-    private const int IncorrectCode = -1;
-
-    private readonly BufferTarget _type;
-
-    public VertexBuffer(BufferTarget bufferType)
+    public VertexBuffer(float[] vertices, BufferUsageHint hint = BufferUsageHint.StaticDraw, BufferTarget target = BufferTarget.ArrayBuffer)
     {
-        BufferObjName = GL.GenBuffer();
-        _type = bufferType;
-    }
+        VertexBufferObject = GL.GenBuffer();
 
-    public int BufferObjName
-    {
-        get;
-        private set;
-    }
-
-    public bool IsBinded
-    {
-        get;
-        private set;
-    }
-
-    public void Bind()
-    {
-        GL.BindBuffer(_type, BufferObjName);
-        IsBinded = true;
-    }
-
-    public void Unbind()
-    {
-        GL.BindBuffer(_type, 0);
-        IsBinded = false;
-    }
-
-    public void SetBufferData<T>(T[] data) where T : struct
-    {
-        if (data.Length < 1)
-        {
-            throw new ArgumentException("Количество данных в массиве должно быть больше 0");
-        }
-
-        Bind();
-
-        GL.BufferData(
-            _type, 
-            (IntPtr)(data.Length * Marshal.SizeOf(typeof(T))), 
-            data, 
+        GL.BufferData(BufferTarget.ArrayBuffer, 
+            vertices.Length * sizeof(float), 
+            vertices, 
             BufferUsageHint.StaticDraw);
     }
 
-    public void DeleteBuffer()
+    public readonly int VertexBufferObject;
+
+    public bool IsBinded
     {
-        if (BufferObjName == IncorrectCode)
-        {
-            return;
-        }
+        get; private set;
+    }
 
-        Unbind();
-
-        GL.DeleteBuffer(BufferObjName);
-
-        BufferObjName = IncorrectCode;
+    public void Run()
+    {
+        IsBinded = true;
+        GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject);
     }
 
     public void Dispose()
     {
-        DeleteBuffer();
-        GC.Collect();
+        IsBinded = false;
+        GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+        GL.DeleteBuffer(VertexBufferObject);
     }
 }

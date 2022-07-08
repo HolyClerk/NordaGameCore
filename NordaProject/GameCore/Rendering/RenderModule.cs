@@ -1,11 +1,11 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Mathematics;
+﻿using OpenTK.Mathematics;
+using OpenTK.Graphics.OpenGL;
 
-using NordaProject.GameCore.Rendering.Buffering;
+using NordaProject.GameCore.Rendering.Buffers;
 
 namespace NordaProject.GameCore.Rendering;
 
-internal class RenderModule
+internal sealed class RenderModule
 {
     // private ShaderProgram _shaderProgram;
 
@@ -16,9 +16,28 @@ internal class RenderModule
          0.0f,  0.5f, 0.0f  //Top vertex
     };
 
-    private int VertexBufferObject;
+    int VertexBufferObject;
 
-    public RenderModule() { }
+    public RenderModule() 
+    {
+        VertexBufferObject = GL.GenBuffer();
+        
+        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+
+        string VertexShaderSource;
+
+        using (StreamReader reader = new StreamReader(vertexPath, Encoding.UTF8))
+        {
+            VertexShaderSource = reader.ReadToEnd();
+        }
+
+        string FragmentShaderSource;
+
+        using (StreamReader reader = new StreamReader(fragmentPath, Encoding.UTF8))
+        {
+            FragmentShaderSource = reader.ReadToEnd();
+        }
+    }
 
     public void RenderFrame()
     {

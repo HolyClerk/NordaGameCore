@@ -8,7 +8,7 @@ using OpenTK.Mathematics;
 using NordaProject.GameCore.UI;
 using NordaProject.GameCore.Keyboard;
 using NordaProject.GameCore.Rendering;
-using NordaProject.GameCore.Rendering.Buffering;
+using NordaProject.GameCore.Rendering.Buffers;
 
 namespace NordaProject.GameCore;
 
@@ -31,6 +31,7 @@ public sealed class Window : GameWindow
         GL.Enable(EnableCap.CullFace);
         GL.CullFace(CullFaceMode.Back);
         // GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
+        
         base.OnLoad();
     }
 
