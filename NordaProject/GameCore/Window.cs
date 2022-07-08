@@ -1,5 +1,4 @@
-﻿using OpenTK;
-using OpenTK.Windowing;
+﻿using OpenTK.Windowing;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 
@@ -17,50 +16,50 @@ namespace NordaProject.GameCore;
 
 public sealed class Window : GameWindow
 {
-    private RenderModule _gameRender;
-    private UserInterface _UI;
+    private RenderModule _render;
+    private UserInterface _userInterface;
     private KeyEventsHandler _defaultKBevents;
 
     public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
     {
-        _gameRender = new(this);
-        _UI = new(this);
+        _render = new();
+        _userInterface = new(this);
         _defaultKBevents = new(this);
     }
 
     protected override void OnLoad()
     {
-        base.OnLoad();
-
         GL.ClearColor(Color4.Black);
         GL.Enable(EnableCap.CullFace);
         GL.CullFace(CullFaceMode.Back);
         // GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
+        base.OnLoad();
     }
 
     protected override void OnResize(ResizeEventArgs e)
     {
+        GL.Viewport(0, 0, e.Width, e.Height);
         base.OnResize(e);
     }
 
     protected override void OnUpdateFrame(FrameEventArgs args)
     {
-        base.OnUpdateFrame(args);
+        _userInterface.Update();
+        _userInterface.ShowFPSinTitle();
+        _userInterface.ShowMouseCoordInTitle();
 
-        _UI.Update();
-        _UI.ShowFPSinTitle();
-        _UI.ShowMouseCoordInTitle();
+        base.OnUpdateFrame(args);
     }
 
     protected override void OnRenderFrame(FrameEventArgs args)
     {
-        base.OnRenderFrame(args);
-
         GL.Clear(ClearBufferMask.ColorBufferBit);
 
-        _gameRender.RenderFrame();
+        // Модуль рендера вынесен в отдельное окно.
+        _render.RenderFrame();
 
-        SwapBuffers();
+        Context.SwapBuffers();
+        base.OnRenderFrame(args);
     }
 
     protected override void OnUnload()
