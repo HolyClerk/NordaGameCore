@@ -2,7 +2,6 @@
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 
-using NordaProject.Debug;
 using NordaProject.GameCore.Settings;
 
 namespace NordaProject.GameCore;

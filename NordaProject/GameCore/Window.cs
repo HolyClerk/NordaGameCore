@@ -17,6 +17,7 @@ namespace NordaProject.GameCore;
 
 public sealed class Window : GameWindow
 {
+    private GameRender _gameRender;
     private UserInterface _UI;
     private KeyEventsHandler _defaultKBevents;
 
@@ -34,7 +35,7 @@ public sealed class Window : GameWindow
                 2, 10, 4,
                 4, 10, 11,
                 4, 11, 6
-        };
+    };
 
     float[] vert_colors = new float[]
     {
@@ -56,6 +57,7 @@ public sealed class Window : GameWindow
 
     public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
     {
+        _gameRender = new(this);
         _UI = new(this);
         _defaultKBevents = new(this);
     }
@@ -90,16 +92,7 @@ public sealed class Window : GameWindow
 
         GL.Clear(ClearBufferMask.ColorBufferBit);
 
-        float[] vertexes =
-        {
-            0.1f, 0.2f
-        };
-
-        var VBO = new VertexBuffer(BufferTarget.ArrayBuffer);
-
-        VBO.SetBufferData()
-
-        var EBO = new VertexBuffer(BufferTarget.ElementArrayBuffer);
+        _gameRender.RenderFrame();
 
         SwapBuffers();
     }
