@@ -11,15 +11,18 @@ internal class Game
 {
     private static Window? _gameWindow;
 
-    public static void Initialize()
+    private GameWindowSettings _gameWinSettings;
+    private NativeWindowSettings _nativeWinSettings;
+
+    public Game()
     {
-        var gameWindowSettings = new GameWindowSettings()
+        _gameWinSettings = new GameWindowSettings()
         {
             RenderFrequency = 60,
             UpdateFrequency = 60,
         };
 
-        var nativeWindowSettings = new NativeWindowSettings()
+        _nativeWinSettings = new NativeWindowSettings()
         {
             Title = "Игровое окно",
 
@@ -40,11 +43,14 @@ internal class Game
 
             API = ContextAPI.OpenGL,
             APIVersion = new Version(4, 6),
-            
+
             NumberOfSamples = 0,
         };
+    }
 
-        using (_gameWindow = new Window(gameWindowSettings, nativeWindowSettings))
+    public void Run()
+    {
+        using (_gameWindow = new Window(_gameWinSettings, _nativeWinSettings))
         {
             UserSettings.SetUserSettings(_gameWindow);
             _gameWindow.Run();

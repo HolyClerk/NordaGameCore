@@ -36,8 +36,8 @@ public sealed class Window : GameWindow
 
         GL.ClearColor(Color4.Black);
         GL.Enable(EnableCap.CullFace);
-        GL.Enable(EnableCap.PolygonSmooth);
         GL.CullFace(CullFaceMode.Back);
+        // GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
     }
 
     protected override void OnResize(ResizeEventArgs e)
@@ -65,11 +65,14 @@ public sealed class Window : GameWindow
             (Vector2)( 0.2f, -0.2f),
             (Vector2)(-0.2f,  0.2f));
 
-        GL.Rotate(0.3f, 0.0f, 1.0f, 0.0f);
+        // GL.Rotate(0.3f, 0.0f, 1.0f, 0.0f);
 
-        PrimitiveRenderer.CreateConnectedTriangle(triangleTemplate, new Vector2[1] 
+        PrimitiveRenderer.CreateStripedTriangle(triangleTemplate, new Vector2[] 
         { 
-            (Vector2)(0.2f, 0.2f)
+            (Vector2)(0.2f, 0.2f),
+            (Vector2)(0.2f, 0.6f),
+            (Vector2)(-0.2f, 0.6f),
+
         });
 
         SwapBuffers();

@@ -4,5 +4,5 @@ namespace NordaProject;
 
 internal class Program
 {
-    static void Main(string[] args) => Game.Initialize();
+    static void Main(string[] args) => new Game().Run();
 }
