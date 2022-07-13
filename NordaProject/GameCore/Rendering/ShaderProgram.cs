@@ -4,26 +4,26 @@ using OpenTK.Graphics.OpenGL;
 
 namespace NordaProject.GameCore.Rendering;
 
-public class Shader : IDisposable
+public class ShaderProgram : IDisposable
 {
     private int _vertexShader;
     private int _fragmentShader;
 
     private bool _disposedValue = false;
 
-    public Shader(string vertexShaderPath, string fragmentShaderPath)
+    public ShaderProgram(string vertexShaderPath, string fragmentShaderPath)
     {
         // Берем коды шейдеров из исходников.
         string VertexShaderSource;
 
-        using (StreamReader reader = new StreamReader(vertexShaderPath, Encoding.UTF8))
+        using (var reader = new StreamReader(vertexShaderPath, Encoding.UTF8))
         {
             VertexShaderSource = reader.ReadToEnd();
         }
 
         string FragmentShaderSource;
 
-        using (StreamReader reader = new StreamReader(fragmentShaderPath, Encoding.UTF8))
+        using (var reader = new StreamReader(fragmentShaderPath, Encoding.UTF8))
         {
             FragmentShaderSource = reader.ReadToEnd();
         }
@@ -109,5 +109,5 @@ public class Shader : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    ~Shader() => GL.DeleteProgram(Handle);
+    ~ShaderProgram() => GL.DeleteProgram(Handle);
 }
