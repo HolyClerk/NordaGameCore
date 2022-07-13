@@ -5,21 +5,21 @@ namespace NordaProject.GameCore.Input;
 
 internal class KeyboardState
 {
-    private Window _window;
+    private Window _currentWindow;
 
     public KeyboardState(Window currentWindow)
     {
-        _window = currentWindow;
+        _currentWindow = currentWindow;
 
-        _window.KeyDown += OnKeyDown;
-        _window.KeyUp += OnKeyUp;
+        _currentWindow.KeyDown  += OnKeyDown;
+        _currentWindow.KeyUp    += OnKeyUp;
     }
 
     private void OnKeyUp(KeyboardKeyEventArgs obj)
     {
         if (obj.Key == Keys.Escape)
         {
-            _window.Close();
+            _currentWindow.Close();
         }
     }
 

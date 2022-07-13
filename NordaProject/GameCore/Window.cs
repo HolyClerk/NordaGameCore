@@ -16,7 +16,7 @@ public sealed class Window : GameWindow
 {
     private RenderModule _render;
     private UserInterface _userInterface;
-    private KeyHandler _keyHandler;
+    private KeyboardState _keyHandler;
 
     public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
     {
