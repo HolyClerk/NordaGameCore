@@ -1,8 +1,6 @@
 ﻿using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL;
 
-using NordaProject.GameCore.Rendering.Buffers;
-
 namespace NordaProject.GameCore.Rendering;
 
 internal sealed class RenderModule
@@ -19,7 +17,7 @@ internal sealed class RenderModule
          0.0f,  0.5f, 0.0f  //Top vertex
     };
 
-    public Shader ShaderProgram 
+    public ShaderProgram ShaderProgram 
     { 
         get; private set; 
     }
@@ -27,7 +25,7 @@ internal sealed class RenderModule
     public RenderModule() 
     {
         // Инициализируем шейдерную программу
-        ShaderProgram = new Shader(SHADER_SOURCE + "shader.vert", SHADER_SOURCE + "shader.frag");
+        ShaderProgram = new ShaderProgram(SHADER_SOURCE + "shader.vert", SHADER_SOURCE + "shader.frag");
 
         // Иниц. VBO & VAO
         _vertexBufferObject = GL.GenBuffer();

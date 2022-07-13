@@ -8,7 +8,6 @@ using OpenTK.Mathematics;
 using NordaProject.GameCore.UI;
 using NordaProject.GameCore.Input;
 using NordaProject.GameCore.Rendering;
-using NordaProject.GameCore.Rendering.Buffers;
 
 namespace NordaProject.GameCore;
 
