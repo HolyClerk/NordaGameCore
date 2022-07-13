@@ -6,9 +6,6 @@ namespace NordaProject.GameCore.Rendering;
 internal sealed class RenderModule
 {
     private const string SHADER_SOURCE= @"C:\Users\PHPpr\Documents\Development\MainProjects\Norda\NordaProject\GameCore\Rendering\Shaders\";
-
-    private int _vertexBufferObject;
-    private int _vertexArrayObject;
     
     private float[] vertices =
     {
@@ -34,7 +31,7 @@ internal sealed class RenderModule
         // Инициализируем шейдерную программу
         ShaderProgram = new ShaderProgram(SHADER_SOURCE + "shader.vert", SHADER_SOURCE + "shader.frag");
 
-        // Иниц. VBO & VAO
+        /*// Иниц. VBO & VAO
         _vertexBufferObject = GL.GenBuffer();
         _vertexArrayObject = GL.GenVertexArray();
 
@@ -47,7 +44,7 @@ internal sealed class RenderModule
 
         // 3. then set our vertex attributes pointers
         GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-        GL.EnableVertexAttribArray(0);
+        GL.EnableVertexAttribArray(0);*/
     }
 
     public void RenderFrame()
@@ -56,7 +53,10 @@ internal sealed class RenderModule
         vbo.InitializeDataStore(vertices, BufferTarget.ArrayBuffer);
 
         var ebo = new VertexBuffer();
-        vbo.InitializeDataStore(vertices2, BufferTarget.ElementArrayBuffer);
+        ebo.InitializeDataStore(vertices2, BufferTarget.ElementArrayBuffer);
+
+        GL.EnableVertexAttribArray(vbo);
+        GL.EnableVertexAttribArray(ebo);
 
         /*ShaderProgram.Use();
 

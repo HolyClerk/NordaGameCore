@@ -109,5 +109,7 @@ public class ShaderProgram : IDisposable
         GC.SuppressFinalize(this);
     }
 
+    public int GetAttribLocation(string name) => GL.GetAttribLocation(Handle, name);
+
     ~ShaderProgram() => GL.DeleteProgram(Handle);
 }
