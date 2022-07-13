@@ -48,38 +48,7 @@ internal sealed class RenderModule
         ShaderProgram.Use();
 
         GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.DynamicDraw);
-        GL.BindVertexArray(_vertexArrayObject);
         GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
-
-        MoveVertices();
-        GL.Rotate(0.3f, 0.0f, 1.0f, 0.0f);
     }
 
-    bool isBack = false;
-
-    private void MoveVertices()
-    {
-        if (!isBack)
-        {
-            vertices[1] += 0.01f;
-            vertices[4] -= 0.003f;
-            vertices[6] += 0.003f;
-
-            if (vertices[1] >= 0.99f)
-            {
-                isBack = true;
-            }
-        }
-        else
-        {
-            vertices[1] -= 0.01f;
-            vertices[4] += 0.003f;
-            vertices[6] -= 0.003f;
-
-            if (vertices[1] <= -0.99f)
-            {
-                isBack = false;
-            }
-        }
-    }
 }

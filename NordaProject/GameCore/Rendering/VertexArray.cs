@@ -4,7 +4,18 @@ namespace NordaProject.GameCore.Rendering;
 
 public sealed class VertexArray
 {
-    public VertexArray() { }
+    public VertexArray() 
+    { 
+    }
 
+    public int VAO
+    {
+        get; private set;
+    }
+
+    public void Draw()
+    {
+
+    }
 }
 

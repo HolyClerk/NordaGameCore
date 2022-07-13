@@ -1,6 +1,6 @@
 ﻿using NordaProject.GameCore;
 
-namespace NordaProject;
+namespace NordaProject.GameLogic;
 
 internal class Program
 {
