@@ -1,5 +1,5 @@
 ﻿using OpenTK.Mathematics;
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL4;
 
 namespace NordaProject.GameCore.Rendering;
 
@@ -11,6 +11,13 @@ internal sealed class RenderModule
     private int _vertexArrayObject;
     
     private float[] vertices =
+    {
+        -0.5f, -0.5f, 0.0f, //Bottom-left vertex
+         0.5f, -0.5f, 0.0f, //Bottom-right vertex
+         0.0f,  0.5f, 0.0f  //Top vertex
+    };
+
+    private float[] vertices2 =
     {
         -0.5f, -0.5f, 0.0f, //Bottom-left vertex
          0.5f, -0.5f, 0.0f, //Bottom-right vertex
@@ -45,10 +52,16 @@ internal sealed class RenderModule
 
     public void RenderFrame()
     {
-        ShaderProgram.Use();
+        var vbo = new VertexBuffer();
+        vbo.InitializeDataStore(vertices, BufferTarget.ArrayBuffer);
+
+        var ebo = new VertexBuffer();
+        vbo.InitializeDataStore(vertices2, BufferTarget.ElementArrayBuffer);
+
+        /*ShaderProgram.Use();
 
         GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.DynamicDraw);
-        GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+        GL.DrawArrays(PrimitiveType.Triangles, 0, 3);*/
     }
 
 }

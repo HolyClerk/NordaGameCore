@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Folder Include="GameLogic\Resources\" />
   </ItemGroup>
 
 </Project>
