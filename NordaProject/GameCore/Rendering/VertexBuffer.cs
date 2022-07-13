@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 
-namespace NordaProject.GameCore.Rendering.Buffers;
+namespace NordaProject.GameCore.Rendering;
 
 public sealed class VertexBuffer
 {
@@ -8,8 +8,8 @@ public sealed class VertexBuffer
     {
         VertexBufferObject = GL.GenBuffer();
 
-        GL.BufferData(target, 
-            vertices.Length * sizeof(float), 
+        GL.BufferData(target,
+            vertices.Length * sizeof(float),
             vertices,
             hint);
     }
