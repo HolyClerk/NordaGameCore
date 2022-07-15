@@ -22,6 +22,12 @@ internal sealed class RenderModule
          0.0f,  0.5f, 0.0f  //Top vertex
     };
 
+    private int _vertexBuffer = 0;
+    private int _vertexArray = 0;
+
+    private VertexBuffer _VBO;
+    private VertexArray _VAO;
+
     private ShaderProgram _shaderProgram;
 
     public RenderModule(Window gameWindow)
@@ -45,21 +51,24 @@ internal sealed class RenderModule
     public void LoadResources()
     {
         _shaderProgram = new ShaderProgram(SHADER_SOURCE + "shader.vert", SHADER_SOURCE + "shader.frag");
+
+        // ..:: Initialization code (done once (unless your object frequently changes)) :: ..
+        // 1. bind Vertex Array Object
+        _VAO = new();
+        _VAO.Bind();
+
+        // 2. copy our vertices array in a buffer for OpenGL to use
+        _VBO = new(vertices, BufferTarget.ArrayBuffer);
+        _VBO.Run(); // Bind buffer
+
+        // 3. then set our vertex attributes pointers
+        _VAO.SetAttributesPointers();
     }
 
     public void RenderFrame(FrameEventArgs? args = null)
     {
-        var vbo = new VertexBuffer();
-        vbo.InitializeDataStore(vertices, BufferTarget.ArrayBuffer);
-
-        var ebo = new VertexBuffer();
-        ebo.InitializeDataStore(vertices2, BufferTarget.ElementArrayBuffer);
-
-        GL.EnableVertexAttribArray(_shaderProgram.GetAttribLocation("aPosition"));
-
         _shaderProgram.Use();
-
-        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.DynamicDraw);
+        _VAO.Bind();
         GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
     }
 
