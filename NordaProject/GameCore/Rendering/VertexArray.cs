@@ -2,8 +2,11 @@
 
 namespace NordaProject.GameCore.Rendering;
 
-public sealed class VertexArray
+public sealed class VertexArray : IDisposable
 {
+    private const int INCORRECT_CODE = -1;
+    private const int NULL_POINT = 0;
+
     public VertexArray() => VAO = GL.GenVertexArray();
 
     public int VAO
@@ -25,12 +28,31 @@ public sealed class VertexArray
     public void UnBind()
     {
         IsBinded = false;
-        GL.BindVertexArray(0);
+        GL.BindVertexArray(NULL_POINT);
     }
 
     public void SetAttributesPointers()
     {
         GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
         GL.EnableVertexAttribArray(0);
+    }
+
+    private void DeleteVAO()
+    {
+        if (VAO == INCORRECT_CODE)
+        {
+            return;
+        }
+
+        UnBind();
+        GL.DeleteVertexArray(VAO);
+
+        VAO = INCORRECT_CODE;
+    }
+
+    public void Dispose()
+    {
+        DeleteVAO();
+        GC.SuppressFinalize(this);
     }
 }
