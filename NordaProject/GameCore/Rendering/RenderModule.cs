@@ -32,34 +32,22 @@ internal sealed class RenderModule
 
     public RenderModule(Window gameWindow)
     {
-        /*// Иниц. VBO & VAO
-        _vertexBufferObject = GL.GenBuffer();
-        _vertexArrayObject = GL.GenVertexArray();
-
-        // 1. Привязываем Vertex Array Object
-        GL.BindVertexArray(_vertexArrayObject);
-
-        // 2. Копируем наш vertices array в буфер openGL
-        GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.DynamicDraw);
-
-        // 3. then set our vertex attributes pointers
-        GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-        GL.EnableVertexAttribArray(0);*/
     }
 
     public void LoadResources()
     {
         _shaderProgram = new ShaderProgram(SHADER_SOURCE + "shader.vert", SHADER_SOURCE + "shader.frag");
+        
+        _VAO = new();
+        _VBO = new();
 
         // ..:: Initialization code (done once (unless your object frequently changes)) :: ..
         // 1. bind Vertex Array Object
-        _VAO = new();
         _VAO.Bind();
 
         // 2. copy our vertices array in a buffer for OpenGL to use
-        _VBO = new(vertices, BufferTarget.ArrayBuffer);
         _VBO.Bind(); // Bind buffer
+        _VBO.InitializeDataStore(vertices, BufferTarget.ArrayBuffer);
 
         // 3. then set our vertex attributes pointers
         _VAO.SetAttributesPointers();
@@ -69,6 +57,28 @@ internal sealed class RenderModule
     {
         _shaderProgram.Use();
         _VAO.Bind();
+        Draw();
+    }
+
+    bool _isLower = false;
+
+    private void Draw()
+    {
+        _VBO.InitializeDataStore(vertices, BufferTarget.ArrayBuffer);
+
+        _isLower = vertices[0] switch
+        {
+            >= 0.5f     => false,
+            <= -1.0f    => true,
+            _           => _isLower,
+        };
+
+        vertices[0] += _isLower switch
+        {
+            true    => 0.01f,
+            false   => -0.1f,
+        };
+
         GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
     }
 

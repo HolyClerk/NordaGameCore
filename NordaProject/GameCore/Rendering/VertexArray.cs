@@ -4,10 +4,7 @@ namespace NordaProject.GameCore.Rendering;
 
 public sealed class VertexArray
 {
-    public VertexArray() 
-    {
-        VAO = GL.GenVertexArray();
-    }
+    public VertexArray() => VAO = GL.GenVertexArray();
 
     public int VAO
     {
