@@ -59,7 +59,7 @@ internal sealed class RenderModule
 
         // 2. copy our vertices array in a buffer for OpenGL to use
         _VBO = new(vertices, BufferTarget.ArrayBuffer);
-        _VBO.Run(); // Bind buffer
+        _VBO.Bind(); // Bind buffer
 
         // 3. then set our vertex attributes pointers
         _VAO.SetAttributesPointers();
@@ -74,6 +74,8 @@ internal sealed class RenderModule
 
     public void UnloadResources()
     {
+        _VAO.UnBind();
+        _VBO.Unbind();
         _shaderProgram.Dispose();
     }
 }

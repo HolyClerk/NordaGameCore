@@ -7,11 +7,11 @@ public sealed class VertexBuffer : IDisposable
 {
     private const int INCORRECT_CODE = -1;
 
-    public VertexBuffer() => VBOID = GL.GenBuffer();
+    public VertexBuffer() => VBO = GL.GenBuffer();
 
     public VertexBuffer(float[] vertices, BufferTarget target, BufferUsageHint hint = BufferUsageHint.StaticDraw)
     {
-        VBOID = GL.GenBuffer();
+        VBO = GL.GenBuffer();
 
         GL.BufferData(target,
             vertices.Length * sizeof(float),
@@ -19,7 +19,7 @@ public sealed class VertexBuffer : IDisposable
             hint);
     }
 
-    public int VBOID
+    public int VBO
     {
         get; private set;
     }
@@ -40,33 +40,29 @@ public sealed class VertexBuffer : IDisposable
         GL.BufferData(target, (IntPtr)(vertices.Length * Marshal.SizeOf(typeof(T))), vertices, hint);
     }
 
-    private void Bind()
+    public void Bind()
     {
         IsBinded = true;
-        GL.BindBuffer(BufferTarget.ArrayBuffer, VBOID);
+        GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
     }
 
-    private void Unbind()
+    public void Unbind()
     {
         IsBinded = false;
-        GL.BindBuffer(BufferTarget.ArrayBuffer, 0); // nullptr
+        GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
     }
-
-    public void Run() => Bind();
-
-    public void Stop() => Unbind();
 
     private void DeleteBuffer()
     {
-        if (VBOID == INCORRECT_CODE)
+        if (VBO == INCORRECT_CODE)
         {
             return;
         }
 
         Unbind();
-        GL.DeleteBuffer(VBOID);
+        GL.DeleteBuffer(VBO);
 
-        VBOID = INCORRECT_CODE;
+        VBO = INCORRECT_CODE;
     }
 
     public void Dispose()
