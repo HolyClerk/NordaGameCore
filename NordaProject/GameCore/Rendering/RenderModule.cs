@@ -1,12 +1,13 @@
 ﻿using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Windowing.Common;
 
 namespace NordaProject.GameCore.Rendering;
 
 internal sealed class RenderModule
 {
-    private const string SHADER_SOURCE= @"C:\Users\PHPpr\Documents\Development\MainProjects\Norda\NordaProject\GameCore\Rendering\Shaders\";
-    
+    private const string SHADER_SOURCE = @"C:\Users\PHPpr\Documents\Development\MainProjects\Norda\NordaProject\GameCore\Rendering\Shaders\";
+
     private float[] vertices =
     {
         -0.5f, -0.5f, 0.0f, //Bottom-left vertex
@@ -21,16 +22,10 @@ internal sealed class RenderModule
          0.0f,  0.5f, 0.0f  //Top vertex
     };
 
-    public ShaderProgram ShaderProgram 
-    { 
-        get; private set; 
-    }
+    private ShaderProgram _shaderProgram;
 
-    public RenderModule() 
+    public RenderModule(Window gameWindow)
     {
-        // Инициализируем шейдерную программу
-        ShaderProgram = new ShaderProgram(SHADER_SOURCE + "shader.vert", SHADER_SOURCE + "shader.frag");
-
         /*// Иниц. VBO & VAO
         _vertexBufferObject = GL.GenBuffer();
         _vertexArrayObject = GL.GenVertexArray();
@@ -47,7 +42,12 @@ internal sealed class RenderModule
         GL.EnableVertexAttribArray(0);*/
     }
 
-    public void RenderFrame()
+    public void LoadResources()
+    {
+        _shaderProgram = new ShaderProgram(SHADER_SOURCE + "shader.vert", SHADER_SOURCE + "shader.frag");
+    }
+
+    public void RenderFrame(FrameEventArgs? args = null)
     {
         var vbo = new VertexBuffer();
         vbo.InitializeDataStore(vertices, BufferTarget.ArrayBuffer);
@@ -55,13 +55,16 @@ internal sealed class RenderModule
         var ebo = new VertexBuffer();
         ebo.InitializeDataStore(vertices2, BufferTarget.ElementArrayBuffer);
 
-        GL.EnableVertexAttribArray(vbo);
-        GL.EnableVertexAttribArray(ebo);
+        GL.EnableVertexAttribArray(_shaderProgram.GetAttribLocation("aPosition"));
 
-        /*ShaderProgram.Use();
+        _shaderProgram.Use();
 
         GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.DynamicDraw);
-        GL.DrawArrays(PrimitiveType.Triangles, 0, 3);*/
+        GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
     }
 
+    public void UnloadResources()
+    {
+        _shaderProgram.Dispose();
+    }
 }

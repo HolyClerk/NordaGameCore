@@ -13,13 +13,13 @@ namespace NordaProject.GameCore;
 
 public sealed class Window : GameWindow
 {
-    private RenderModule _render;
-    private UserInterface _userInterface;
-    private KeyboardState _keyHandler;
+    private readonly RenderModule _render;
+    private readonly UserInterface _userInterface;
+    private readonly KeyboardState _keyHandler;
 
     public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
     {
-        _render = new();
+        _render = new(this);
         _userInterface = new(this);
         _keyHandler = new(this);
     }
@@ -30,7 +30,7 @@ public sealed class Window : GameWindow
         GL.Enable(EnableCap.CullFace);
         GL.CullFace(CullFaceMode.Back);
         // GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
-        
+        _render.LoadResources();
         base.OnLoad();
     }
 
@@ -45,25 +45,20 @@ public sealed class Window : GameWindow
         _userInterface.Update();
         _userInterface.ShowFPSinTitle();
         _userInterface.ShowMouseCoordInTitle();
-
         base.OnUpdateFrame(args);
     }
 
     protected override void OnRenderFrame(FrameEventArgs args)
     {
         GL.Clear(ClearBufferMask.ColorBufferBit);
-
-        // Модуль рендера вынесен в отдельное окно.
         _render.RenderFrame();
-
         Context.SwapBuffers();
         base.OnRenderFrame(args);
     }
 
     protected override void OnUnload()
     {
-        _render.ShaderProgram.Dispose();
-
+        _render.UnloadResources();
         base.OnUnload();
     }
 }
