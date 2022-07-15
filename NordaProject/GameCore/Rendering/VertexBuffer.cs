@@ -6,6 +6,7 @@ namespace NordaProject.GameCore.Rendering;
 public sealed class VertexBuffer : IDisposable
 {
     private const int INCORRECT_CODE = -1;
+    private const int NULL_POINT = 0;
 
     public VertexBuffer() => VBO = GL.GenBuffer();
 
@@ -49,7 +50,7 @@ public sealed class VertexBuffer : IDisposable
     public void Unbind()
     {
         IsBinded = false;
-        GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+        GL.BindBuffer(BufferTarget.ArrayBuffer, NULL_POINT);
     }
 
     private void DeleteBuffer()
