@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 
-namespace NordaProject.GameCore.Rendering;
+namespace NordaProject.GameCore.Rendering.Buffering;
 
 public sealed class VertexArray : IDisposable
 {

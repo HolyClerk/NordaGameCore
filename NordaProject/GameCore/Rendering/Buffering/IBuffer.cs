@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NordaProject.GameCore.Rendering;
-
-public class ElementBuffer
+namespace NordaProject.GameCore.Rendering.Buffering
 {
+    internal interface IBuffer
+    {
+    }
 }
-

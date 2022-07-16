@@ -1,7 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using System.Runtime.InteropServices;
 
-namespace NordaProject.GameCore.Rendering;
+namespace NordaProject.GameCore.Rendering.Buffering;
 
 public sealed class VertexBuffer : IDisposable
 {

@@ -1,6 +1,7 @@
 ﻿using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
+using NordaProject.GameCore.Rendering.Buffering;
 
 namespace NordaProject.GameCore.Rendering;
 
@@ -22,17 +23,23 @@ internal sealed class RenderModule
          0.0f,  0.5f, 0.0f  //Top vertex
     };
 
+    uint[] indices = 
+    {  // note that we start from 0!
+        0, 1, 3,   // first triangle
+        1, 2, 3    // second triangle
+    };
+
     private int _vertexBuffer = 0;
     private int _vertexArray = 0;
 
     private VertexBuffer _VBO;
     private VertexArray _VAO;
+    private int _EBO;
 
     private ShaderProgram _shaderProgram;
 
-    public RenderModule(Window gameWindow)
-    {
-    }
+    // !!!
+    public RenderModule(Window gameWindow) { } 
 
     public void LoadResources()
     {
@@ -51,13 +58,25 @@ internal sealed class RenderModule
 
         // 3. then set our vertex attributes pointers
         _VAO.SetAttributesPointers();
+
+        _EBO = GL.GenBuffer();
+        GL.BindBuffer(BufferTarget.ElementArrayBuffer, _EBO);
+        GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
     }
 
     public void RenderFrame(FrameEventArgs? args = null)
     {
         _shaderProgram.Use();
-        _VAO.Bind();
-        Draw();
+
+        //_VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer);
+
+        //_VAO.Bind();
+
+        GL.BindBuffer(BufferTarget.ElementArrayBuffer, _EBO);
+        GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
+
+        GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+
     }
 
     bool _isLower = false;
