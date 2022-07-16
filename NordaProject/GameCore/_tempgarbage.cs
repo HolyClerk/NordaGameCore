@@ -28,5 +28,16 @@ namespace NordaProject.GameCore
 
             count = 0.0f;
         }*/
+
+        /*// ..:: Initialization code (done once (unless your object frequently changes)) :: ..
+        // 1. bind Vertex Array Object
+        _VAO.Bind();
+
+        // 2. copy our vertices array in a buffer for OpenGL to use
+        _VBO.Bind(); // Bind buffer
+        _VBO.InitializeDataStore(vertices, BufferTarget.ArrayBuffer);
+
+        // 3. then set our vertex attributes pointers
+        _VAO.SetAttributesPointers();*/
     }
 }

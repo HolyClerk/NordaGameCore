@@ -8,14 +8,14 @@ internal sealed class RenderModule
 {
     private const string SHADER_SOURCE = @"C:\Users\PHPpr\Documents\Development\MainProjects\Norda\NordaProject\GameCore\Rendering\Shaders\";
 
-    private float[] vertices =
+    private float[] _vertices =
     {
         -0.5f, -0.5f, 0.0f, //Bottom-left vertex
          0.5f, -0.5f, 0.0f, //Bottom-right vertex
          0.0f,  0.5f, 0.0f  //Top vertex
     };
 
-    private float[] vertices2 =
+    private float[] _vertices2 =
     {
         -0.5f, -0.5f, 0.0f, //Bottom-left vertex
          0.5f, -0.5f, 0.0f, //Bottom-right vertex
@@ -47,7 +47,7 @@ internal sealed class RenderModule
 
         // 2. copy our vertices array in a buffer for OpenGL to use
         _VBO.Bind(); // Bind buffer
-        _VBO.InitializeDataStore(vertices, BufferTarget.ArrayBuffer);
+        _VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer);
 
         // 3. then set our vertex attributes pointers
         _VAO.SetAttributesPointers();
@@ -64,16 +64,16 @@ internal sealed class RenderModule
 
     private void Draw()
     {
-        _VBO.InitializeDataStore(vertices, BufferTarget.ArrayBuffer);
+        _VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer);
 
-        _isLower = vertices[0] switch
+        _isLower = _vertices[0] switch
         {
             >= 0.5f     => false,
             <= -1.0f    => true,
             _           => _isLower,
         };
 
-        vertices[0] += _isLower switch
+        _vertices[0] += _isLower switch
         {
             true    => 0.01f,
             false   => -0.1f,
@@ -84,8 +84,8 @@ internal sealed class RenderModule
 
     public void UnloadResources()
     {
-        _VAO.UnBind();
-        _VBO.Unbind();
+        _VAO.Dispose();
+        _VBO.Dispose();
         _shaderProgram.Dispose();
     }
 }
