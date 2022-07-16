@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace NordaProject.GameCore.Rendering.Buffering;
 
-internal interface IBuffer
+internal interface IBindable
 {
     protected const int INCORRECT_CODE = -1;
     protected const int NULL_POINT = 0;
@@ -18,10 +18,5 @@ internal interface IBuffer
     /// 0.
     /// </summary>
     public abstract void Unbind();
-
-    /// <summary>
-    /// Удаление и высвобождение ресурсов Buffer Object
-    /// </summary>
-    protected virtual void DeleteBuffer() { }
 }
 

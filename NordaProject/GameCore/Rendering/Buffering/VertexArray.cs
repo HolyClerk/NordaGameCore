@@ -2,11 +2,8 @@
 
 namespace NordaProject.GameCore.Rendering.Buffering;
 
-public sealed class VertexArray : IDisposable
+public sealed class VertexArray : IDisposable, IBindable
 {
-    private const int INCORRECT_CODE = -1;
-    private const int NULL_POINT = 0;
-
     public VertexArray() => VAO = GL.GenVertexArray();
 
     public int VAO
@@ -28,7 +25,7 @@ public sealed class VertexArray : IDisposable
     public void Unbind()
     {
         IsBinded = false;
-        GL.BindVertexArray(NULL_POINT);
+        GL.BindVertexArray(IBindable.NULL_POINT);
     }
 
     public void SetAttributesPointers()
@@ -39,7 +36,7 @@ public sealed class VertexArray : IDisposable
 
     private void DeleteVAO()
     {
-        if (VAO == INCORRECT_CODE)
+        if (VAO == IBindable.INCORRECT_CODE)
         {
             return;
         }
@@ -47,7 +44,7 @@ public sealed class VertexArray : IDisposable
         Unbind();
         GL.DeleteVertexArray(VAO);
 
-        VAO = INCORRECT_CODE;
+        VAO = IBindable.INCORRECT_CODE;
     }
 
     public void Dispose()

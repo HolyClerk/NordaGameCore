@@ -37,8 +37,9 @@ internal sealed class RenderModule
 
     private ShaderProgram _shaderProgram;
 
-    // !!!
-    public RenderModule(Window gameWindow) { } 
+#pragma warning disable CS8618 // Поле, не допускающее значения NULL
+    public RenderModule(Window gameWindow) { }
+#pragma warning restore CS8618 // Поле, не допускающее значения NULL
 
     public void LoadResources()
     {
@@ -69,7 +70,7 @@ internal sealed class RenderModule
 
         _VAO.Bind();
 
-        GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
+        Draw();
     }
 
     bool _isLower = false;
@@ -77,27 +78,30 @@ internal sealed class RenderModule
     private void Draw()
     {
         _VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer);
+        _EBO.InitializeDataStore(_indices);
 
-        _isLower = _vertices[0] switch
+        _isLower = _vertices[10] switch
         {
-            >= 0.5f     => false,
-            <= -1.0f    => true,
+            >= 0.7f     => false,
+            <= -0.8f    => true,
             _           => _isLower,
         };
 
-        _vertices[0] += _isLower switch
+        _vertices[10] += _isLower switch
         {
-            true    => 0.01f,
-            false   => -0.1f,
+            true    => 0.03f,
+            false   => -0.03f,
         };
 
-        GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+        //GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+        GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
     }
 
     public void UnloadResources()
     {
         _VAO.Dispose();
         _VBO.Dispose();
+        _EBO.Dispose();
         _shaderProgram.Dispose();
     }
 }
