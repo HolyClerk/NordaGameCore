@@ -27,6 +27,7 @@ public class ElementBuffer : IDisposable, IBuffer
         {
             throw new ArgumentException("Массив вершин должен содержать хотя-бы одну вершину.", nameof(indices));
         }
+
         GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
         GL.BufferData(target, (IntPtr)(indices.Length * Marshal.SizeOf(typeof(T))), indices, hint);
     }
@@ -36,19 +37,19 @@ public class ElementBuffer : IDisposable, IBuffer
         throw new NotImplementedException();
     }
 
-    public void UnBind()
+    public void Unbind()
     {
         throw new NotImplementedException();
     }
 
-    public void Delete()
+    private void DeleteBuffer()
     {
         if (EBO == IBuffer.INCORRECT_CODE)
         {
             return;
         }
 
-        UnBind();
+        Unbind();
         GL.DeleteVertexArray(EBO);
 
         EBO = IBuffer.INCORRECT_CODE;
@@ -56,7 +57,7 @@ public class ElementBuffer : IDisposable, IBuffer
 
     public void Dispose()
     {
-        Delete();
+        DeleteBuffer();
         GC.SuppressFinalize(this);
     }
 }

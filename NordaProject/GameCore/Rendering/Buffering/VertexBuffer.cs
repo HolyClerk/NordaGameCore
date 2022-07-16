@@ -3,11 +3,8 @@ using System.Runtime.InteropServices;
 
 namespace NordaProject.GameCore.Rendering.Buffering;
 
-public sealed class VertexBuffer : IDisposable
+public sealed class VertexBuffer : IDisposable, IBuffer
 {
-    private const int INCORRECT_CODE = -1;
-    private const int NULL_POINT = 0;
-
     public VertexBuffer() => VBO = GL.GenBuffer();
 
     public VertexBuffer(float[] vertices, BufferTarget target, BufferUsageHint hint = BufferUsageHint.StaticDraw)
@@ -50,12 +47,12 @@ public sealed class VertexBuffer : IDisposable
     public void Unbind()
     {
         IsBinded = false;
-        GL.BindBuffer(BufferTarget.ArrayBuffer, NULL_POINT);
+        GL.BindBuffer(BufferTarget.ArrayBuffer, IBuffer.NULL_POINT);
     }
 
     private void DeleteBuffer()
     {
-        if (VBO == INCORRECT_CODE)
+        if (VBO == IBuffer.INCORRECT_CODE)
         {
             return;
         }
@@ -63,7 +60,7 @@ public sealed class VertexBuffer : IDisposable
         Unbind();
         GL.DeleteBuffer(VBO);
 
-        VBO = INCORRECT_CODE;
+        VBO = IBuffer.INCORRECT_CODE;
     }
 
     public void Dispose()
