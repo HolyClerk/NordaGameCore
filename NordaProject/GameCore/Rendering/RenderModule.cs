@@ -9,13 +9,6 @@ internal sealed class RenderModule
 {
     private const string SHADER_SOURCE = @"C:\Users\PHPpr\Documents\Development\MainProjects\Norda\NordaProject\GameCore\Rendering\Shaders\";
 
-    private float[] _vertices =
-    {
-        -0.5f, -0.5f, 0.0f, //Bottom-left vertex
-         0.5f, -0.5f, 0.0f, //Bottom-right vertex
-         0.0f,  0.5f, 0.0f  //Top vertex
-    };
-
     private float[] _vertices2 =
     {
         -0.5f, -0.5f, 0.0f, //Bottom-left vertex
@@ -23,18 +16,24 @@ internal sealed class RenderModule
          0.0f,  0.5f, 0.0f  //Top vertex
     };
 
-    uint[] indices = 
-    {  // note that we start from 0!
-        0, 1, 3,   // first triangle
-        1, 2, 3    // second triangle
+    float[] _vertices = 
+    {
+         0.5f,  0.5f, 0.0f,  // top right
+         0.5f, -0.5f, 0.0f,  // bottom right
+        -0.5f, -0.5f, 0.0f,  // bottom left
+        -0.5f,  0.5f, 0.0f   // top left
     };
 
-    private int _vertexBuffer = 0;
-    private int _vertexArray = 0;
+    uint[] _indices = 
+    {  // note that we start from 0!
+        0, 3, 1,   // first triangle
+        3, 2, 1    // second triangle
+    };
 
     private VertexBuffer _VBO;
+    private ElementBuffer _EBO;
     private VertexArray _VAO;
-    private int _EBO;
+    
 
     private ShaderProgram _shaderProgram;
 
@@ -47,6 +46,7 @@ internal sealed class RenderModule
         
         _VAO = new();
         _VBO = new();
+        _EBO = new();
 
         // ..:: Initialization code (done once (unless your object frequently changes)) :: ..
         // 1. bind Vertex Array Object
@@ -56,27 +56,20 @@ internal sealed class RenderModule
         _VBO.Bind(); // Bind buffer
         _VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer);
 
+        _EBO.Bind();
+        _EBO.InitializeDataStore(_indices);
+
         // 3. then set our vertex attributes pointers
         _VAO.SetAttributesPointers();
-
-        _EBO = GL.GenBuffer();
-        GL.BindBuffer(BufferTarget.ElementArrayBuffer, _EBO);
-        GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
     }
 
     public void RenderFrame(FrameEventArgs? args = null)
     {
         _shaderProgram.Use();
 
-        //_VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer);
+        _VAO.Bind();
 
-        //_VAO.Bind();
-
-        GL.BindBuffer(BufferTarget.ElementArrayBuffer, _EBO);
-        GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
-
-        GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
-
+        GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
     }
 
     bool _isLower = false;

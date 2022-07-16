@@ -25,7 +25,7 @@ public sealed class VertexArray : IDisposable
         GL.BindVertexArray(VAO);
     }
 
-    public void UnBind()
+    public void Unbind()
     {
         IsBinded = false;
         GL.BindVertexArray(NULL_POINT);
@@ -44,7 +44,7 @@ public sealed class VertexArray : IDisposable
             return;
         }
 
-        UnBind();
+        Unbind();
         GL.DeleteVertexArray(VAO);
 
         VAO = INCORRECT_CODE;

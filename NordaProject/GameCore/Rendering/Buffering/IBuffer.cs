@@ -1,4 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
+using System.Runtime.InteropServices;
+
 namespace NordaProject.GameCore.Rendering.Buffering;
 
 internal interface IBuffer
@@ -16,16 +18,6 @@ internal interface IBuffer
     /// 0.
     /// </summary>
     public abstract void Unbind();
-
-    /// <summary>
-    /// Создает и инициализирует данные объекта буффера.
-    /// </summary>
-    /// <typeparam name="T">Структурный тип</typeparam>
-    /// <param name="vertices">Массив вершин</param>
-    /// <param name="target">Таргет, в который обработаются входящие данные</param>
-    /// <param name="hint">Тип отрисовки</param>
-    public abstract void InitializeDataStore<T>(T[] vertices, BufferTarget target, BufferUsageHint hint = BufferUsageHint.StaticDraw) 
-        where T : struct;
 
     /// <summary>
     /// Удаление и высвобождение ресурсов Buffer Object

@@ -5,10 +5,7 @@ namespace NordaProject.GameCore.Rendering.Buffering;
 
 public class ElementBuffer : IDisposable, IBuffer
 {
-    public ElementBuffer()
-    { 
-        
-    }
+    public ElementBuffer() => EBO = GL.GenBuffer();
 
     public int EBO 
     { 
@@ -20,26 +17,29 @@ public class ElementBuffer : IDisposable, IBuffer
         get; private set;
     }
 
-    public void InitializeDataStore<T>(T[] indices, BufferTarget target, BufferUsageHint hint = BufferUsageHint.StaticDraw)
-    where T : struct
+    public void InitializeDataStore(uint[] indices, BufferUsageHint hint = BufferUsageHint.StaticDraw)
     {
         if (indices.Length < 1)
         {
             throw new ArgumentException("Массив вершин должен содержать хотя-бы одну вершину.", nameof(indices));
         }
 
-        GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
-        GL.BufferData(target, (IntPtr)(indices.Length * Marshal.SizeOf(typeof(T))), indices, hint);
+        GL.BufferData(BufferTarget.ElementArrayBuffer,
+            indices.Length * sizeof(uint),
+            indices,
+            hint);
     }
 
     public void Bind()
     {
-        throw new NotImplementedException();
+        IsBinded = true;
+        GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
     }
 
     public void Unbind()
     {
-        throw new NotImplementedException();
+        IsBinded = false;
+        GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBuffer.NULL_POINT);
     }
 
     private void DeleteBuffer()
@@ -61,4 +61,3 @@ public class ElementBuffer : IDisposable, IBuffer
         GC.SuppressFinalize(this);
     }
 }
-
