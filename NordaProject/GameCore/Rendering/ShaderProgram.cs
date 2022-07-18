@@ -6,6 +6,8 @@ namespace NordaProject.GameCore.Rendering;
 
 public class ShaderProgram : IDisposable
 {
+    private const int BAD_CODE = 0;
+
     private int _vertexShader;
     private int _fragmentShader;
 
@@ -56,7 +58,7 @@ public class ShaderProgram : IDisposable
         GL.CompileShader(shader);
 
         GL.GetShader(shader, ShaderParameter.CompileStatus, out int success);
-        if (success == 0)
+        if (success == BAD_CODE)
         {
             string infoLog = GL.GetShaderInfoLog(shader);
             Console.WriteLine(infoLog);
@@ -73,7 +75,7 @@ public class ShaderProgram : IDisposable
         GL.LinkProgram(Handle);
 
         GL.GetProgram(Handle, GetProgramParameterName.LinkStatus, out int success);
-        if (success == 0)
+        if (success == BAD_CODE)
         {
             string infoLog = GL.GetProgramInfoLog(Handle);
             Console.WriteLine(infoLog);

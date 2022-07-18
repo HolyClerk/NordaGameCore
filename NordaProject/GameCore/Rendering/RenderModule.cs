@@ -18,8 +18,8 @@ internal sealed class RenderModule
 
     float[] _vertices = 
     {
-         0.5f,  0.6f, 0.0f,  // Top right
-         0.2f, -0.2f, 0.0f,  // Bottom right
+         0.5f,  0.5f, 0.0f,  // Top right
+         0.5f, -0.5f, 0.0f,  // Bottom right
         -0.5f, -0.5f, 0.0f,  // Bottom left
         -0.5f,  0.5f, 0.0f,  // Top left
     };
