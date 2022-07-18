@@ -14,8 +14,7 @@ internal interface IBindable
     public abstract void Bind();
 
     /// <summary>
-    /// Отвязка объекта от идентификатора, object будет указывать на
-    /// 0.
+    /// Отвязка объекта от идентификатора, object будет указывать на 0.
     /// </summary>
     public abstract void Unbind();
 }

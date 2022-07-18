@@ -39,5 +39,48 @@ namespace NordaProject.GameCore
 
         // 3. then set our vertex attributes pointers
         _VAO.SetAttributesPointers();*/
+
+
+        /*
+        float[] _vertices =
+        {
+             0.5f,  0.6f, 0.0f,  // top right
+             0.2f, -0.2f, 0.0f,  // bottom right
+            -0.5f, -0.5f, 0.0f,  // bottom left
+            -0.5f,  0.5f, 0.0f,  // top left
+
+             0.8f, -0.5f, 0.0f,  // bottom right2
+             0.8f,  0.6f, 0.0f,  // top right2
+        };
+        ................................................
+        uint[] _indices =
+        {  // note that we start from 0!
+            0, 3, 1,    // first triangle
+            3, 2, 1,    // second triangle
+            0, 1, 4,
+            5, 0, 4,
+            1, 2, 4,
+            //2, 5, 4,    // 2 4 5 // 4 5 2
+        }
+        ....................................................................
+        _VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer);
+        _EBO.InitializeDataStore(_indices);
+
+        _isLower = _vertices[10] switch
+        {
+            >= 0.7f     => false,
+            <= -0.8f    => true,
+            _           => _isLower,
+        };
+
+        _vertices[10] += _isLower switch
+        {
+            true    => 0.03f,
+            false   => -0.03f,
+        };
+
+        //GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+        GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
+    };*/
     }
 }

@@ -9,37 +9,36 @@ internal sealed class RenderModule
 {
     private const string SHADER_SOURCE = @"C:\Users\PHPpr\Documents\Development\MainProjects\Norda\NordaProject\GameCore\Rendering\Shaders\";
 
-    private float[] _vertices2 =
+    private float[] _verticesD =
     {
-        -0.5f, -0.5f, 0.0f, //Bottom-left vertex
-         0.5f, -0.5f, 0.0f, //Bottom-right vertex
-         0.0f,  0.5f, 0.0f  //Top vertex
+        -0.5f, -0.5f, 0.0f, // Bottom-left vertex
+         0.5f, -0.5f, 0.0f, // Bottom-right vertex
+         0.0f,  0.5f, 0.0f  // Top vertex
     };
 
     float[] _vertices = 
     {
-         0.5f,  0.5f, 0.0f,  // top right
-         0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left
+         0.5f,  0.6f, 0.0f,  // Top right
+         0.2f, -0.2f, 0.0f,  // Bottom right
+        -0.5f, -0.5f, 0.0f,  // Bottom left
+        -0.5f,  0.5f, 0.0f,  // Top left
     };
 
     uint[] _indices = 
-    {  // note that we start from 0!
-        0, 3, 1,   // first triangle
-        3, 2, 1    // second triangle
+    {
+        0, 3, 1,    // 1 T
+        3, 2, 1,    // 2 T
     };
 
     private VertexBuffer _VBO;
     private ElementBuffer _EBO;
     private VertexArray _VAO;
-    
 
     private ShaderProgram _shaderProgram;
 
-#pragma warning disable CS8618 // Поле, не допускающее значения NULL
+#pragma warning disable CS8618 // Выключение CS8618 т.к. поля объявляются в LoadResources
     public RenderModule(Window gameWindow) { }
-#pragma warning restore CS8618 // Поле, не допускающее значения NULL
+#pragma warning restore CS8618
 
     public void LoadResources()
     {
@@ -49,18 +48,17 @@ internal sealed class RenderModule
         _VBO = new();
         _EBO = new();
 
-        // ..:: Initialization code (done once (unless your object frequently changes)) :: ..
-        // 1. bind Vertex Array Object
+        // 1. Биндим VAO
         _VAO.Bind();
 
-        // 2. copy our vertices array in a buffer for OpenGL to use
-        _VBO.Bind(); // Bind buffer
+        // 2. Копируем вершинные массивы в буфер 
+        _VBO.Bind(); 
         _VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer);
 
         _EBO.Bind();
         _EBO.InitializeDataStore(_indices);
 
-        // 3. then set our vertex attributes pointers
+        // 3. Устанавливаем точки аттрибутов вершин
         _VAO.SetAttributesPointers();
     }
 
@@ -70,7 +68,7 @@ internal sealed class RenderModule
 
         _VAO.Bind();
 
-        Draw();
+        GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
     }
 
     bool _isLower = false;
