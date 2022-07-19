@@ -47,8 +47,8 @@ public class DrawExample
         _VBO.Bind();
         _VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer, BufferUsageHint.DynamicDraw);
 
-        //_EBO.Bind();
-        //_EBO.InitializeDataStore(_indices, BufferUsageHint.DynamicDraw);
+        _EBO.Bind();
+        _EBO.InitializeDataStore(_indices, BufferUsageHint.DynamicDraw);
 
         // Устанавливаем точки аттрибутов вершин
         _VAO.SetAttributesPointers();
@@ -80,7 +80,7 @@ public class DrawExample
         float valueWithinOne = ((float)Math.Sin(timeValue) / 2f) + 0.5f;
         int vertexColorLocation = GL.GetUniformLocation(_shaderProgram.Handle, "ourColor");
         GL.Uniform4(vertexColorLocation, valueWithinOne, 0.0f, 0.0f, 1.0f);
-
+        _VBO.InitializeDataStore(_verticesEx1, BufferTarget.ArrayBuffer);
         ScaleVertex(ref _verticesEx1[10]);
         ScaleVertex(ref _verticesEx1[1]);
 
@@ -89,10 +89,6 @@ public class DrawExample
 
     public void ScaleVertex(ref float vert)
     {
-        _VAO.Bind(); // -
-        _VBO.InitializeDataStore(_verticesEx1, BufferTarget.ArrayBuffer);
-        _VAO.SetAttributesPointers(); // -
-        
         float scaleValue = ((float)Math.Sin(_timer.Elapsed.TotalSeconds) / 2f) + 0.5f;
         vert = scaleValue;
     }

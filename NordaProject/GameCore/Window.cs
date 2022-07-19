@@ -26,12 +26,13 @@ public sealed class Window : GameWindow
 
     protected override void OnLoad()
     {
-        GL.ClearColor(Color4.Black);
+        base.OnLoad();
+
+        GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         GL.Enable(EnableCap.CullFace);
         GL.CullFace(CullFaceMode.Back);
         // GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
         _render.LoadResources();
-        base.OnLoad();
     }
 
     protected override void OnResize(ResizeEventArgs e)
