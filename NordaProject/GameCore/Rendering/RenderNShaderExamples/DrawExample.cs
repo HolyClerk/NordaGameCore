@@ -8,12 +8,12 @@ public class DrawExample
 {
     private const string SHADER_SOURCE = @"C:\Users\PHPpr\Documents\Development\MainProjects\Norda\NordaProject\GameCore\Rendering\Shaders\";
 
-    private float[] _vertices =
+    private readonly float[] _vertices =
     {
-         0.5f,  0.5f, 0.0f,  // Top right
-         0.5f, -0.5f, 0.0f,  // Bottom right
-        -0.5f, -0.5f, 0.0f,  // Bottom left
-        -0.5f,  0.5f, 0.0f,  // Top left
+        // positions        // colors
+         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
     };
 
     private uint[] _indices =
@@ -22,9 +22,9 @@ public class DrawExample
         3, 2, 1,    // 2 T
     };
 
+    private VertexArray _VAO;
     private VertexBuffer _VBO;
     private ElementBuffer _EBO;
-    private VertexArray _VAO;
 
     private ShaderProgram _shaderProgram;
 
@@ -40,33 +40,61 @@ public class DrawExample
         _VBO = new();
         _EBO = new();
 
-        // 1. Биндим VAO
+        // Биндим VAO
         _VAO.Bind();
 
-        // 2. Копируем вершинные массивы в буфер 
+        // Копируем вершинные массивы в буфер 
         _VBO.Bind();
-        _VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer);
+        _VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer, BufferUsageHint.DynamicDraw);
 
-        _EBO.Bind();
-        _EBO.InitializeDataStore(_indices);
+        //_EBO.Bind();
+        //_EBO.InitializeDataStore(_indices, BufferUsageHint.DynamicDraw);
 
-        // 3. Устанавливаем точки аттрибутов вершин
+        // Устанавливаем точки аттрибутов вершин
         _VAO.SetAttributesPointers();
     }
 
+    /*----------------------------COLOR----------------------------*/
+
+    private float[] _verticesEx1 =
+    {
+         0.5f,  0.5f, 0.0f,  // Top right
+         0.5f, -0.5f, 0.0f,  // Bottom right
+        -0.5f, -0.5f, 0.0f,  // Bottom left
+        -0.5f,  0.5f, 0.0f,  // Top left
+    };
+
+    private uint[] _indicesEx1 =
+    {
+        0, 3, 1,    // 1 T
+        3, 2, 1,    // 2 T
+    };
+
+    bool _isLower = false;
+
     public void ChangeColor()
     {
-        // be sure to activate the shader
         _shaderProgram.Use();
 
-        // update the uniform color
         double timeValue = _timer.Elapsed.TotalSeconds;
-        float greenValue = ((float)Math.Sin(timeValue) / 2f) + 0.5f;
+        float valueWithinOne = ((float)Math.Sin(timeValue) / 2f) + 0.5f;
         int vertexColorLocation = GL.GetUniformLocation(_shaderProgram.Handle, "ourColor");
-        GL.Uniform4(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
-        Console.WriteLine(greenValue);
-        _VAO.Bind();
-        GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
+        GL.Uniform4(vertexColorLocation, valueWithinOne, 0.0f, 0.0f, 1.0f);
+
+        ScaleVertex(ref _verticesEx1[10]);
+        ScaleVertex(ref _verticesEx1[1]);
+
+        GL.DrawElements(PrimitiveType.Triangles, _indicesEx1.Length, DrawElementsType.UnsignedInt, 0);
+    }
+
+    public void ScaleVertex(ref float vert)
+    {
+        _VAO.Bind(); // -
+        _VBO.InitializeDataStore(_verticesEx1, BufferTarget.ArrayBuffer);
+        _VAO.SetAttributesPointers(); // -
+        
+        float scaleValue = ((float)Math.Sin(_timer.Elapsed.TotalSeconds) / 2f) + 0.5f;
+        vert = scaleValue;
     }
 }
 
