@@ -45,11 +45,8 @@ public sealed class RenderModule
         _VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer);
 
         // Устанавливаем точки аттрибутов вершин
-        GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
-        GL.EnableVertexAttribArray(0);
-
-        GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
-        GL.EnableVertexAttribArray(1);
+        _VAO.SetAttributesPointers(index: 0, stride: 6, offset: 0);
+        _VAO.SetAttributesPointers(index: 1, stride: 6, offset: 3 * sizeof(float));
 
         _shader = new ShaderProgram(SHADER_SOURCE + "shader_base.vert", SHADER_SOURCE + "shader_base.frag");
         _shader.Use();

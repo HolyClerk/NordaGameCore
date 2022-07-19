@@ -34,6 +34,12 @@ public sealed class VertexArray : IDisposable, IBindable
         GL.EnableVertexAttribArray(0);
     }
 
+    public void SetAttributesPointers(int index, int stride, int offset, int size = 3, VertexAttribPointerType type = VertexAttribPointerType.Float, bool normalized = false)
+    {
+        GL.VertexAttribPointer(index, size, type, normalized, stride * sizeof(float), offset);
+        GL.EnableVertexAttribArray(index);
+    }
+
     private void DeleteVAO()
     {
         if (VAO == IBindable.INCORRECT_CODE)
