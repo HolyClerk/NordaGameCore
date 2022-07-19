@@ -6,20 +6,21 @@ using NordaProject.GameCore.Rendering.RenderNShaderExamples;
 
 namespace NordaProject.GameCore.Rendering;
 
-internal sealed class RenderModule
+public sealed class RenderModule
 {
     private const string SHADER_SOURCE = @"C:\Users\PHPpr\Documents\Development\MainProjects\Norda\NordaProject\GameCore\Rendering\Shaders\";
 
     private readonly float[] _vertices =
     {
-        -0.5f, -0.5f, 0.0f, // Bottom-left vertex
-         0.5f, -0.5f, 0.0f, // Bottom-right vertex
-         0.0f,  0.5f, 0.0f, // Top vertex
+        // pos                  // colors
+        -0.5f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f, // l-b
+         0.5f, -0.5f, 0.0f,     0.0f, 1.0f, 0.0f, // r-b
+         0.0f,  0.5f, 0.0f,     0.0f, 0.0f, 1.0f, // t
     };
 
     private VertexArray _VAO;
     private VertexBuffer _VBO;
-    private ShaderProgram _shaderProgram;
+    private ShaderProgram _shader;
 
     private DrawExample? _example;
 
@@ -33,26 +34,30 @@ internal sealed class RenderModule
     public void LoadResources()
     {
         GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-
-        _shaderProgram = new ShaderProgram(SHADER_SOURCE + "shader.vert", SHADER_SOURCE + "shader.frag");
-
         _VAO = new();
         _VBO = new();
 
-        // 1. Биндим VAO
+        // Биндим VAO
         _VAO.Bind();
 
-        // 2. Копируем вершинные массивы в буфер 
+        // Копируем вершинные массивы в буфер 
         _VBO.Bind();
         _VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer);
 
-        // 3. Устанавливаем точки аттрибутов вершин
-        _VAO.SetAttributesPointers();
+        // Устанавливаем точки аттрибутов вершин
+        GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
+        GL.EnableVertexAttribArray(0);
+
+        GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
+        GL.EnableVertexAttribArray(1);
+
+        _shader = new ShaderProgram(SHADER_SOURCE + "shader_base.vert", SHADER_SOURCE + "shader_base.frag");
+        _shader.Use();
     }
 
     public void RenderFrame(FrameEventArgs? args = null)
     {
-        _shaderProgram.Use();
+        _shader.Use();
         _VAO.Bind();
         // GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
         GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
@@ -62,6 +67,6 @@ internal sealed class RenderModule
     {
         _VAO.Dispose();
         _VBO.Dispose();
-        _shaderProgram.Dispose();
+        _shader.Dispose();
     }
 }

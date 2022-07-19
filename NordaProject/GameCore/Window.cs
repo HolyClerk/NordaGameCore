@@ -32,7 +32,11 @@ public sealed class Window : GameWindow
         GL.Enable(EnableCap.CullFace);
         GL.CullFace(CullFaceMode.Back);
         // GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
+
         _render.LoadResources();
+
+        GL.GetInteger(GetPName.MaxVertexAttribs, out int maxAttributeCount);
+        Console.WriteLine($"{maxAttributeCount} attrs");
     }
 
     protected override void OnResize(ResizeEventArgs e)
