@@ -1,16 +1,14 @@
-﻿using OpenTK.Mathematics;
+﻿using NordaProject.GameCore.Rendering.Buffering;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Windowing.Common;
-using NordaProject.GameCore.Rendering.Buffering;
-using NordaProject.GameCore.Rendering.RenderNShaderExamples;
+using System.Diagnostics;
 
-namespace NordaProject.GameCore.Rendering;
+namespace NordaProject.GameCore.Rendering.RenderNShaderExamples;
 
-internal sealed class RenderModule
+public class DrawExample
 {
     private const string SHADER_SOURCE = @"C:\Users\PHPpr\Documents\Development\MainProjects\Norda\NordaProject\GameCore\Rendering\Shaders\";
 
-    private float[] _vertices = 
+    private float[] _vertices =
     {
          0.5f,  0.5f, 0.0f,  // Top right
          0.5f, -0.5f, 0.0f,  // Bottom right
@@ -18,7 +16,7 @@ internal sealed class RenderModule
         -0.5f,  0.5f, 0.0f,  // Top left
     };
 
-    private uint[] _indices = 
+    private uint[] _indices =
     {
         0, 3, 1,    // 1 T
         3, 2, 1,    // 2 T
@@ -30,18 +28,14 @@ internal sealed class RenderModule
 
     private ShaderProgram _shaderProgram;
 
-    private DrawExample _example;
+    private Stopwatch _timer;
 
-#pragma warning disable CS8618 // Выключение CS8618 т.к. поля объявляются в LoadResources
-    public RenderModule(Window gameWindow) { }
-#pragma warning restore CS8618
-
-    public void LoadResources()
+    public DrawExample()
     {
-        _example = new DrawExample();
-
+        _timer = new Stopwatch();
+        _timer.Start();
         _shaderProgram = new ShaderProgram(SHADER_SOURCE + "shader.vert", SHADER_SOURCE + "shader.frag");
-        
+
         _VAO = new();
         _VBO = new();
         _EBO = new();
@@ -50,7 +44,7 @@ internal sealed class RenderModule
         _VAO.Bind();
 
         // 2. Копируем вершинные массивы в буфер 
-        _VBO.Bind(); 
+        _VBO.Bind();
         _VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer);
 
         _EBO.Bind();
@@ -60,21 +54,19 @@ internal sealed class RenderModule
         _VAO.SetAttributesPointers();
     }
 
-    public void RenderFrame(FrameEventArgs? args = null)
+    public void ChangeColor()
     {
-        // _shaderProgram.Use();
-        // _VAO.Bind();
-        // GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
-        // GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+        // be sure to activate the shader
+        _shaderProgram.Use();
 
-        _example.ChangeColor();
-    }
-
-    public void UnloadResources()
-    {
-        _VAO.Dispose();
-        _VBO.Dispose();
-        _EBO.Dispose();
-        _shaderProgram.Dispose();
+        // update the uniform color
+        double timeValue = _timer.Elapsed.TotalSeconds;
+        float greenValue = ((float)Math.Sin(timeValue) / 2f) + 0.5f;
+        int vertexColorLocation = GL.GetUniformLocation(_shaderProgram.Handle, "ourColor");
+        GL.Uniform4(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+        Console.WriteLine(greenValue);
+        _VAO.Bind();
+        GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
     }
 }
+
