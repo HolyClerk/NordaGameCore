@@ -34,6 +34,7 @@ public class DrawExample
     {
         _timer = new Stopwatch();
         _timer.Start();
+        
         _shaderProgram = new ShaderProgram(SHADER_SOURCE + "shader.vert", SHADER_SOURCE + "shader.frag");
 
         _VAO = new();

@@ -60,7 +60,7 @@ public sealed class RenderModule
         _EBO.InitializeDataStore(_indices);
 
         //
-        _shader = new ShaderProgram(SHADER_SOURCE + "shader_base.vert", SHADER_SOURCE + "shader_base.frag");
+        _shader = new ShaderProgram(SHADER_SOURCE + "shader_texturing.vert", SHADER_SOURCE + "shader_texturing.frag");
         _shader.Use();
 
         //
