@@ -9,10 +9,11 @@
 
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.7.4" />
+    <PackageReference Include="Verify.ImageSharp" Version="3.9.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="GameLogic\Resources\" />
+    <Folder Include="GameCore\Rendering\BasicObjects\" />
   </ItemGroup>
 
 </Project>
