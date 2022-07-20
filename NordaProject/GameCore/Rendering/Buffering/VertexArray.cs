@@ -30,14 +30,14 @@ public sealed class VertexArray : IDisposable, IBindable
 
     public void SetAttributesPointers()
     {
-        GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
         GL.EnableVertexAttribArray(0);
+        GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
     }
 
     public void SetAttributesPointers(int index, int stride, int offset, int size = 3, VertexAttribPointerType type = VertexAttribPointerType.Float, bool normalized = false)
     {
-        GL.VertexAttribPointer(index, size, type, normalized, stride * sizeof(float), offset);
         GL.EnableVertexAttribArray(index);
+        GL.VertexAttribPointer(index, size, type, normalized, stride * sizeof(float), offset);
     }
 
     private void DeleteVAO()

@@ -19,20 +19,21 @@ public sealed class RenderModule
         -0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // Top left
     };
 
-    private readonly float[] _vertices2 =
+    private readonly uint[] _indices =
     {
-        // pos                  // colors
-        -1.0f, -1.0f, 0.0f,     1.0f, 0.0f, 0.0f, // l-b
-         0.5f, -1.0f, 0.0f,     0.0f, 1.0f, 0.0f, // r-b
-        -0.7f,  0.5f, 0.0f,     0.0f, 0.0f, 1.0f, // t
+        0, 1, 3,
+        1, 2, 3
     };
 
     private VertexArray _VAO;
     private VertexBuffer _VBO;
-    private VertexBuffer _VBO2;
+    private ElementBuffer _EBO;
+
     private ShaderProgram _shader;
+    private Texture _texture;
 
     private DrawExample? _example;
+    
 
 #pragma warning disable CS8618 // Выключение CS8618 т.к. поля объявляются в LoadResources
     public RenderModule(Window gameWindow) 
@@ -44,25 +45,35 @@ public sealed class RenderModule
     public void LoadResources()
     {
         GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        _VAO = new();
-        _VBO = new();
-        _VBO2 = new();
 
         // Биндим VAO
+        _VAO = new();
         _VAO.Bind();
 
-        // Копируем вершинные массивы в буфер 
+        // VBO & EBO бинд
+        _VBO = new();
         _VBO.Bind();
         _VBO.InitializeDataStore(_vertices, BufferTarget.ArrayBuffer);
 
-        // Устанавливаем точки аттрибутов вершин
-        _VAO.SetAttributesPointers(index: 0, stride: 6, offset: 0);
-        _VAO.SetAttributesPointers(index: 1, stride: 6, offset: 3 * sizeof(float));
-        
-        _VAO.Unbind();
+        _EBO = new();
+        _EBO.Bind();
+        _EBO.InitializeDataStore(_indices);
 
+        //
         _shader = new ShaderProgram(SHADER_SOURCE + "shader_base.vert", SHADER_SOURCE + "shader_base.frag");
         _shader.Use();
+
+        //
+        var verticesLocation = _shader.GetAttribLocation("aPosition");
+        _VAO.SetAttributesPointers(index: verticesLocation, stride: 5, offset: 0);
+
+        var textureCoordLocation = _shader.GetAttribLocation("aTextureCoord");
+        _VAO.SetAttributesPointers(index: textureCoordLocation, stride: 5, offset: 3 * sizeof(float));
+
+        _VAO.Unbind();
+
+        _texture = new("Resources/container.jpg");
+        _texture.Use();
     }
 
     public void RenderFrame(FrameEventArgs? args = null)
