@@ -28,7 +28,7 @@ public class DrawExample
 
     private ShaderProgram _shaderProgram;
 
-    private Stopwatch _timer;
+    private static Stopwatch _timer;
 
     public DrawExample()
     {
@@ -87,7 +87,7 @@ public class DrawExample
         GL.DrawElements(PrimitiveType.Triangles, _indicesEx1.Length, DrawElementsType.UnsignedInt, 0);
     }
 
-    public void ScaleVertex(ref float vert)
+    public static void ScaleVertex(ref float vert)
     {
         float scaleValue = ((float)Math.Sin(_timer.Elapsed.TotalSeconds) / 2f) + 0.5f;
         vert = scaleValue;
